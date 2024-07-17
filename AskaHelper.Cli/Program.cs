@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using AskaHelper.Cli.Exceptions;
 
 new Aska().PrintFetch();
 

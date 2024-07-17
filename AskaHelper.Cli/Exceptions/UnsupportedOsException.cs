@@ -1,4 +1,6 @@
-﻿internal class UnsupportedOsException : Exception {
+﻿namespace AskaHelper.Cli.Exceptions;
+
+internal class UnsupportedOsException : Exception {
     public UnsupportedOsException() {
     }
 

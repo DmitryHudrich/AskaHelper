@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Exceptions\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Remove="Services\OsModules\UnixDependent\berba.sh" />
       <None Update="Scripts\get_mountpoints.sh">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
