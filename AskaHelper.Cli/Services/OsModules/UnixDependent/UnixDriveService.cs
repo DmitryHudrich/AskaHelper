@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BebraHelper.Cli.Services.OsModules.UnixDependent;
+namespace AskaHelper.Cli.Services.OsModules.UnixDependent;
 
 internal static class UnixDriveService {
     public static DriveInfo[] Analyze() {

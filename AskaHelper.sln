@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BebraHelper.Cli", "BebraHelper.Cli\BebraHelper.Cli.csproj", "{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskaHelper.Cli", "AskaHelper.Cli\AskaHelper.Cli.csproj", "{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿using BebraHelper.Cli.Services;
+﻿using AskaHelper.Cli.Services;
 
 internal class Aska {
     public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();

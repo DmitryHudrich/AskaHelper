@@ -1,7 +1,7 @@
-﻿using BebraHelper.Cli.Services.OsModules.UnixDependent;
-using BebraHelper.Cli.Services.OsModules.WindowsDependent;
+﻿using AskaHelper.Cli.Services.OsModules.UnixDependent;
+using AskaHelper.Cli.Services.OsModules.WindowsDependent;
 
-namespace BebraHelper.Cli.Services;
+namespace AskaHelper.Cli.Services;
 
 public static class HardDriveService {
     public static DriveInfo[] Drives { get; } = AnalyzeDrives();
