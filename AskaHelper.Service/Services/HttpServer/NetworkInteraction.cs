@@ -1,11 +1,14 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace AskaHelper.Service;
 
-internal delegate Task<String> NetworkRequestHandler(HttpListenerContext context, String requestData);
+internal delegate Task<String> NetworkRequestHandler(HttpListenerContext context, IServiceProvider services,
+    String requestData);
 
 internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
     private readonly HttpListener server = new HttpListener();
@@ -14,45 +17,50 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
 
     public Task EndpointsPrepare() {
         StartServer();
-        
+
         // Bind endpoints below 
-        
-        Bind("/bebra", async (context, requestData) => requestData);
-        
+
+        Bind("/bebra", async (context, services, requestData) => {
+            services.GetRequiredService<ScopeService>();
+            return requestData;
+        });
+
         // --------------------------------------------------------------------
         BindAll();
         return Task.CompletedTask;
     }
 
     private void BindAll() {
-        var tasks = new List<Task<HttpListenerContext>>();
+        var tasks = new List<Task>();
         foreach (var endpoint in endpoints) {
-            server
-                .GetContextAsync()
-                .ContinueWith((async contextTask => await ConnectionPreHandle(contextTask, endpoint)));
+            tasks.Add(Task.Run(() => {
+                while (true) {
+                    server
+                        .GetContextAsync()
+                        .ContinueWith((async contextTask => ConnectionPreHandle(contextTask, endpoint)));
+                }
+            }));
         }
+
+        Task.WaitAll(tasks.ToArray());
     }
 
     private async Task ConnectionPreHandle(Task<HttpListenerContext> contextTask, Endpoint endpoint) {
-        await Task.Run(async () => {
-            while (true) {
-                var (context, responseText) = await ReadRequest(contextTask, endpoint);
-                await SendResponse(responseText, context);
-            }
-        });
+        using var serviceScope = Aska.Services.CreateScope();
+        var (context, responseText) = await ReadRequest(contextTask, endpoint, serviceScope.ServiceProvider);
+        await SendResponse(responseText, context);
     }
 
-    private async Task<(HttpListenerContext context, String responseText)> ReadRequest(Task<HttpListenerContext> contextTask, Endpoint endpoint)
-    {
+    private async Task<(HttpListenerContext context, String responseText)> ReadRequest(
+        Task<HttpListenerContext> contextTask, Endpoint endpoint, IServiceProvider services) {
         var context = await contextTask;
         var body = await new StreamReader(context.Request.InputStream).ReadToEndAsync();
         logger.LogInformation("Text: " + body);
-        var responseText = await endpoint.Handler(context, body);
+        var responseText = await endpoint.Handler(context, services, body);
         return (context, responseText);
     }
 
-    private static async Task SendResponse(string responseText, HttpListenerContext context)
-    {
+    private static async Task SendResponse(String responseText, HttpListenerContext context) {
         var buffer = Encoding.UTF8.GetBytes(responseText);
         context.Response.ContentLength64 = buffer.Length;
         await using var output = context.Response.OutputStream;
@@ -60,7 +68,7 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
         await output.FlushAsync();
     }
 
-    public void Bind(String endpoint, NetworkRequestHandler handler) {
+    private void Bind(String endpoint, NetworkRequestHandler handler) {
         endpoints.Add(new Endpoint(endpoint, handler));
     }
 

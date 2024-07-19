@@ -6,20 +6,25 @@ using AskaHelper.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-await new Aska().Initialize();
+var aska = Aska.ConfigureAska();
+await aska.InitializeAsync();
 Console.ReadLine();
 
 internal class Aska {
-    private ILogger<Aska> logger;
+    private Aska() {  }
 
-    public Aska() {
+    static Aska() {
         var services = new ServiceCollection();
         Services = services.ConfigureServices().BuildServiceProvider();
-        logger = Services.GetRequiredService<ILogger<Aska>>();
+    }
+
+    public static Aska ConfigureAska() {
+        
+        return new Aska();
     }
 
     public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
-    public IServiceProvider Services { get; set; }
+    public static IServiceProvider Services { get; set; }
 
     private PersistenceInfo[] PersistenceInfo() {
         var drives = HardDriveService.Drives;
@@ -28,8 +33,7 @@ internal class Aska {
             .ToArray();
     }
 
-    public async Task Initialize() {
-        using var serviceScope = Services.CreateScope();
+    public async Task InitializeAsync() {
         await Services.GetRequiredService<NetworkInteraction>().EndpointsPrepare();
     }
 }

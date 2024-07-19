@@ -1,4 +1,4 @@
-POST http://127.0.0.1:8888/ewr
+POST http://127.0.0.1:8888/ea
 Content-Type: application/json
 
 {
