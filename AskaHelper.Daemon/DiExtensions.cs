@@ -15,7 +15,7 @@ public static class DiExtensions {
 }
 
 public class ScopeService {
-    private static int n = 0;
+    private static Int32 n = 0;
     public ScopeService(ILogger<ScopeService> logger) {
         logger.LogInformation("Scope created " + n++);
     }

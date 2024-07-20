@@ -25,7 +25,7 @@ internal class OsIdentity {
     }
 
     private static String CheckFullDistroName() {
-        return TakeOsReleaseParameter("PRETTY_NAME");
+        return TakeOsReleaseParameter("PRETTY_NAME").Replace("\"", "");
     }
 
     private static OsDistroBase CheckDistro() {
