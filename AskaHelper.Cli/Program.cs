@@ -12,7 +12,7 @@ public static class Program {
         Console.WriteLine("Drives info: ");
         foreach (var drive in content.Drives) {
             Console.WriteLine("\tDrive name:\t" + drive.Name);
-            Console.WriteLine("\tFree space:\t" + drive.FreeSpace / 1024 / 1024);
+            Console.WriteLine("\tFree space:\t" + drive.FreeSpace / 1024 / 1024 / 1024);
         }
     }
 }
