@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AskaHelper.Service;
+namespace AskaHelper.Daemon;
 
 public static class DiExtensions {
     public static IServiceCollection ConfigureServices(this IServiceCollection serviceCollection) {

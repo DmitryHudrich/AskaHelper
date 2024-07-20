@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace AskaHelper.Service;
+namespace AskaHelper.Daemon;
 
 internal delegate Task<String> NetworkRequestHandler(HttpListenerContext context, IServiceProvider services,
     String requestData);
@@ -20,7 +20,7 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
 
         // Bind endpoints below 
 
-        Bind("/bebra", async (context, services, requestData) => {
+        Bind("/health", async (context, services, requestData) => {
             services.GetRequiredService<ScopeService>();
             return requestData;
         });
@@ -45,7 +45,7 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
     }
 
     private async Task ConnectionPreHandle(HttpListenerContext context, Endpoint endpoint) {
-        using var serviceScope = Aska.Services.CreateScope();
+        using var serviceScope = AskaBootstrap.Services.CreateScope();
         var responseText = await ReadRequest(context, endpoint, serviceScope.ServiceProvider);
         await SendResponse(responseText, context);
     }

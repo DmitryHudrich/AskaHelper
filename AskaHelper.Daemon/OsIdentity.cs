@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using AskaHelper.Cli.Exceptions;
 
-namespace AskaHelper.Service;
+namespace AskaHelper.Daemon;
 
 internal class OsIdentity {
     private static String[]? osreleaseContent;

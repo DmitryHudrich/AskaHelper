@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskaHelper.Cli", "AskaHelper.Cli\AskaHelper.Cli.csproj", "{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskaHelper.Service", "AskaHelper.Service\AskaHelper.Service.csproj", "{BAD4A91D-3985-4FB2-A11A-855428CBB88C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskaHelper.Daemon", "AskaHelper.Daemon\AskaHelper.Daemon.csproj", "{BAD4A91D-3985-4FB2-A11A-855428CBB88C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,10 +8,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD8CC2B1-A59B-4620-8399-D5CDD81DA43F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BAD4A91D-3985-4FB2-A11A-855428CBB88C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BAD4A91D-3985-4FB2-A11A-855428CBB88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAD4A91D-3985-4FB2-A11A-855428CBB88C}.Release|Any CPU.ActiveCfg = Release|Any CPU

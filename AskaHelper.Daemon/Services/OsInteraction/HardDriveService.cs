@@ -7,7 +7,7 @@ public static class HardDriveService {
     public static DriveInfo[] Drives { get; } = AnalyzeDrives();
 
     private static DriveInfo[] AnalyzeDrives() {
-        var res = Aska.OsIdentity.Family switch {
+        var res = AskaBootstrap.OsIdentity.Family switch {
             OsFamily.Unix => UnixDriveService.Analyze(),
             OsFamily.Windows => WindowsDriveService.Analyze(),
             _ => throw new ArgumentException(),

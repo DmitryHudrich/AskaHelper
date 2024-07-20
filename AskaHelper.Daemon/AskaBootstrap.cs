@@ -1,22 +1,22 @@
 ﻿using AskaHelper.Cli.Services;
-using AskaHelper.Service;
+using AskaHelper.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 
-var aska = Aska.ConfigureAska();
+var aska = AskaBootstrap.ConfigureAska();
 await aska.InitializeAsync();
 
 Console.ReadLine();
 
-internal class Aska {
-    private Aska() {  }
+internal class AskaBootstrap {
+    private AskaBootstrap() {  }
 
-    static Aska() {
+    static AskaBootstrap() {
         var services = new ServiceCollection();
         Services = services.ConfigureServices().BuildServiceProvider();
     }
 
-    public static Aska ConfigureAska() {
-        return new Aska();
+    public static AskaBootstrap ConfigureAska() {
+        return new AskaBootstrap();
     }
 
     public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
@@ -33,3 +33,5 @@ internal class Aska {
         await Services.GetRequiredService<NetworkInteraction>().EndpointsPrepare();
     }
 }
+
+

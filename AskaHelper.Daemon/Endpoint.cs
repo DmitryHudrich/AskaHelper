@@ -1,4 +1,4 @@
-﻿using AskaHelper.Service;
+﻿using AskaHelper.Daemon;
 
 internal class Endpoint(String endpoint, NetworkRequestHandler handler) {
     public String Data => endpoint;
