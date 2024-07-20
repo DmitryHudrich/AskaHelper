@@ -11,12 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Scripts\get_mountpoints.sh">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
+      <Folder Include="Scripts\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
