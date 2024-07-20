@@ -35,7 +35,7 @@ static void OsInfo() {
                       ⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⠄⠄⠄⠄⠄⠄⠈⣿
                       ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹ 
                       """);
-    Console.WriteLine("You system:\t" + AskaService.OsIdentity.FullDistroName);
+    Console.WriteLine("Your system:\t" + AskaService.OsIdentity.FullDistroName);
     Console.WriteLine("Drives:");
     foreach (var driveInfo in AskaService.HardwareIdentity.Persistences) {
         Console.WriteLine("\tName:\t\t" + driveInfo.Name + "\tFree space:\t" +
