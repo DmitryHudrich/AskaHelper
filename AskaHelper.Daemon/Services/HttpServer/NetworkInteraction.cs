@@ -1,11 +1,9 @@
-﻿using System.Globalization;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
-namespace AskaHelper.Daemon;
+namespace AskaHelper.Daemon.Services.HttpServer;
 
 internal delegate Task<String> NetworkRequestHandler(HttpListenerContext context, IServiceProvider services,
     String requestData);

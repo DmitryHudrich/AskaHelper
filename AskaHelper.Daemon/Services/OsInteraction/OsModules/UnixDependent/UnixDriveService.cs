@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AskaHelper.Cli.Services.OsModules.UnixDependent;
+namespace AskaHelper.Daemon.Services.OsInteraction.OsModules.UnixDependent;
 
 internal static class UnixDriveService {
     public static DriveInfo[] Analyze() {

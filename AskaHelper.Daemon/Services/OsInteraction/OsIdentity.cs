@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using AskaHelper.Cli.Exceptions;
+using AskaHelper.Daemon.Exceptions;
 
-namespace AskaHelper.Daemon;
+namespace AskaHelper.Daemon.Services.OsInteraction;
 
 internal class OsIdentity {
     private static String[]? osreleaseContent;
