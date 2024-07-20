@@ -1,13 +1,13 @@
 ﻿using AskaHelper.Daemon.Services.OsInteraction.OsModules.UnixDependent;
 using AskaHelper.Daemon.Services.OsInteraction.OsModules.WindowsDependent;
 
-namespace AskaHelper.Daemon.Services.OsInteraction;
+namespace AskaHelper.Daemon.Services.OsInteraction.HardwareIdentity;
 
-public static class HardDriveService {
+internal static class HardDriveService {
     public static DriveInfo[] Drives { get; } = AnalyzeDrives();
 
     private static DriveInfo[] AnalyzeDrives() {
-        var res = Aska.OsIdentity.Family switch {
+        var res = AskaService.OsIdentity.Family switch {
             OsFamily.Unix => UnixDriveService.Analyze(),
             OsFamily.Windows => WindowsDriveService.Analyze(),
             _ => throw new ArgumentException(),

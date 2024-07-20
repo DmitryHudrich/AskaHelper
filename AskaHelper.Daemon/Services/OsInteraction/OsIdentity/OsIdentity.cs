@@ -4,7 +4,7 @@ using AskaHelper.Daemon.Exceptions;
 
 namespace AskaHelper.Daemon.Services.OsInteraction;
 
-internal class OsIdentity {
+public class OsIdentity {
     private static String[]? osreleaseContent;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private OsIdentity() { }

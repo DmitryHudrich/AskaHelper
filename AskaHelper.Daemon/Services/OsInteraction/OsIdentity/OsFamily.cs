@@ -1,6 +1,6 @@
 ﻿namespace AskaHelper.Daemon.Services.OsInteraction;
 
-internal enum OsFamily {
+public enum OsFamily {
     Windows,
     Unix,
 }

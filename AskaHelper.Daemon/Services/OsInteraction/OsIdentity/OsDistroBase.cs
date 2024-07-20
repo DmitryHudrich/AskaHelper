@@ -1,6 +1,6 @@
 ﻿namespace AskaHelper.Daemon.Services.OsInteraction;
 
-internal enum OsDistroBase {
+public enum OsDistroBase {
     Win,
 
     Pacman,

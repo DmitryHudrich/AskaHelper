@@ -1,34 +1,16 @@
-﻿using AskaHelper.Daemon;
-using AskaHelper.Daemon.Services.HttpServer;
-using AskaHelper.Daemon.Services.OsInteraction;
-using Microsoft.Extensions.DependencyInjection;
+﻿using AskaHelper.Daemon.Services.OsInteraction;
+using AskaHelper.Daemon.Services.OsInteraction.HardwareIdentity;
 
-var aska = AskaBootstrap.ConfigureAska();
-aska.StartDaemons();
+namespace AskaHelper.Daemon;
 
-Console.ReadLine();
-
-namespace AskaHelper.Daemon {
-    internal static class AskaBootstrap {
-        private static IServiceProvider? services;
-
-        public static Aska ConfigureAska() {
-            var servicesCollection = new ServiceCollection();
-            Services = servicesCollection.ConfigureServices().BuildServiceProvider();
-            return Services.GetRequiredService<Aska>();
-        }
-
-        public static IServiceProvider Services {
-            get => services ?? throw new ArgumentNullException(nameof(Services), "Services isn't configured.");
-            private set => services = value;
-        }
+internal static class AskaBootstrap {
+    public static AskaService ConfigureAska() {
+        return new AskaService();
     }
 
-    internal class Aska(NetworkInteraction networkInteraction) {
-        public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
+}
 
-        public void StartDaemons() {
-            networkInteraction.EndpointsPrepare();
-        }
-    }
+public class AskaService() {
+    public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
+    public static HardwareIdentity HardwareIndentity { get; } = new HardwareIdentity();
 }
