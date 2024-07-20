@@ -8,6 +8,7 @@ public static class DiExtensions {
         serviceCollection.AddLogging(builder => builder.AddConsole());
         serviceCollection.AddSingleton<NetworkInteraction>();
         serviceCollection.AddScoped<ScopeService>();
+        serviceCollection.AddSingleton<Aska>();
         return serviceCollection;
     }
 }

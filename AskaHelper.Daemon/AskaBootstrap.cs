@@ -3,35 +3,36 @@ using AskaHelper.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 
 var aska = AskaBootstrap.ConfigureAska();
-await aska.InitializeAsync();
+aska.StartDaemons();
 
 Console.ReadLine();
 
-internal class AskaBootstrap {
-    private AskaBootstrap() {  }
+internal static class AskaBootstrap {
+    private static IServiceProvider? services;
 
-    static AskaBootstrap() {
-        var services = new ServiceCollection();
-        Services = services.ConfigureServices().BuildServiceProvider();
+    public static Aska ConfigureAska() {
+        var servicesCollection = new ServiceCollection();
+        Services = servicesCollection.ConfigureServices().BuildServiceProvider();
+        return Services.GetRequiredService<Aska>();
     }
 
-    public static AskaBootstrap ConfigureAska() {
-        return new AskaBootstrap();
+    public static IServiceProvider Services {
+        get => services ?? throw new ArgumentNullException(nameof(Services), "Services isn't configured.");
+        private set => services = value;
     }
+}
 
+internal class Aska(NetworkInteraction networkInteraction) {
     public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
-    public static IServiceProvider Services { get; set; }
 
-    private PersistenceInfo[] PersistenceInfo() {
+    private static PersistenceInfo[] PersistenceInfo() {
         var drives = HardDriveService.Drives;
         return drives
             .Select(drive => new PersistenceInfo() { Name = drive.Name, FreeSpace = drive.AvailableFreeSpace, })
             .ToArray();
     }
 
-    public async Task InitializeAsync() {
-        await Services.GetRequiredService<NetworkInteraction>().EndpointsPrepare();
+    public void StartDaemons() {
+        networkInteraction.EndpointsPrepare();
     }
 }
-
-
