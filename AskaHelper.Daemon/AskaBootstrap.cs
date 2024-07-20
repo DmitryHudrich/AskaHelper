@@ -1,5 +1,6 @@
 ﻿using AskaHelper.Daemon.Services.OsInteraction;
 using AskaHelper.Daemon.Services.OsInteraction.HardwareIdentity;
+using AskaHelper.Daemon.Services.OsInteraction.OsIdentity;
 
 namespace AskaHelper.Daemon;
 

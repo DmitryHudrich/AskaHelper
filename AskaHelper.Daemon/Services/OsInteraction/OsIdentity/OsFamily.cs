@@ -1,4 +1,4 @@
-﻿namespace AskaHelper.Daemon.Services.OsInteraction;
+﻿namespace AskaHelper.Daemon.Services.OsInteraction.OsIdentity;
 
 public enum OsFamily {
     Windows,

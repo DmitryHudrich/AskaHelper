@@ -1,13 +1,17 @@
 ﻿using System.Diagnostics;
 
-namespace AskaHelper.Daemon.Services.OsInteraction.OsModules.UnixDependent;
+namespace AskaHelper.Daemon.Services.OsInteraction.OsDependent.Unix;
 
 internal static class UnixDriveService {
+
     public static DriveInfo[] Analyze() {
         using var parseProcess = new Process();
         parseProcess.StartInfo =
             new ProcessStartInfo {
-                UseShellExecute = false, FileName = "/bin/sh", Arguments = "./Scripts/get_mountpoints.sh", RedirectStandardOutput = true
+                UseShellExecute = false,
+                FileName = "/bin/sh",
+                Arguments = "./Scripts/get_mountpoints.sh",
+                RedirectStandardOutput = true
             };
         parseProcess.Start();
         var res = GetDrives(parseProcess);

@@ -1,5 +1,6 @@
-﻿using AskaHelper.Daemon.Services.OsInteraction.OsModules.UnixDependent;
-using AskaHelper.Daemon.Services.OsInteraction.OsModules.WindowsDependent;
+﻿using AskaHelper.Daemon.Services.OsInteraction.OsDependent.Unix;
+using AskaHelper.Daemon.Services.OsInteraction.OsDependent.Windows;
+using AskaHelper.Daemon.Services.OsInteraction.OsIdentity;
 
 namespace AskaHelper.Daemon.Services.OsInteraction.HardwareIdentity;
 

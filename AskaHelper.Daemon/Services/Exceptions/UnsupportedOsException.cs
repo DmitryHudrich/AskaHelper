@@ -1,4 +1,4 @@
-﻿namespace AskaHelper.Daemon.Exceptions;
+﻿namespace AskaHelper.Daemon.Services.Exceptions;
 
 internal class UnsupportedOsException : Exception {
     public UnsupportedOsException() {
