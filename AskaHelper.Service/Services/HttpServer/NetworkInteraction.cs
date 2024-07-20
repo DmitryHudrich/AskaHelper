@@ -31,33 +31,31 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
     }
 
     private void BindAll() {
-        var tasks = new List<Task>();
-        foreach (var endpoint in endpoints) {
-            tasks.Add(Task.Run(() => {
-                while (true) {
-                    server
-                        .GetContextAsync()
-                        .ContinueWith((async contextTask => ConnectionPreHandle(contextTask, endpoint)));
+        Task.Run(async () => {
+            while (true) {
+                foreach (var endpoint in endpoints) {
+                    var context = await server.GetContextAsync();
+                    logger.LogInformation(context.Request.Url?.LocalPath);
+                    if (context.Request.Url != null && context.Request.Url.LocalPath == endpoint.Data) {
+                        await ConnectionPreHandle(context, endpoint);
+                    }
                 }
-            }));
-        }
-
-        Task.WaitAll(tasks.ToArray());
+            }
+        });
     }
 
-    private async Task ConnectionPreHandle(Task<HttpListenerContext> contextTask, Endpoint endpoint) {
+    private async Task ConnectionPreHandle(HttpListenerContext context, Endpoint endpoint) {
         using var serviceScope = Aska.Services.CreateScope();
-        var (context, responseText) = await ReadRequest(contextTask, endpoint, serviceScope.ServiceProvider);
+        var responseText = await ReadRequest(context, endpoint, serviceScope.ServiceProvider);
         await SendResponse(responseText, context);
     }
 
-    private async Task<(HttpListenerContext context, String responseText)> ReadRequest(
-        Task<HttpListenerContext> contextTask, Endpoint endpoint, IServiceProvider services) {
-        var context = await contextTask;
+    private async Task<String> ReadRequest(
+        HttpListenerContext context, Endpoint endpoint, IServiceProvider services) {
         var body = await new StreamReader(context.Request.InputStream).ReadToEndAsync();
         logger.LogInformation("Text: " + body);
         var responseText = await endpoint.Handler(context, services, body);
-        return (context, responseText);
+        return responseText;
     }
 
     private static async Task SendResponse(String responseText, HttpListenerContext context) {

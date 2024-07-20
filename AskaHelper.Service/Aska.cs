@@ -1,13 +1,10 @@
-﻿using System.Net.Sockets;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using AskaHelper.Cli.Services;
+﻿using AskaHelper.Cli.Services;
 using AskaHelper.Service;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 var aska = Aska.ConfigureAska();
 await aska.InitializeAsync();
+
 Console.ReadLine();
 
 internal class Aska {
@@ -19,7 +16,6 @@ internal class Aska {
     }
 
     public static Aska ConfigureAska() {
-        
         return new Aska();
     }
 
