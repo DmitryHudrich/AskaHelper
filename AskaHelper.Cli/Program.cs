@@ -18,7 +18,7 @@ while (true) {
 static void OsInfo() {
     Console.WriteLine("You system:\t" + AskaService.OsIdentity.FullDistroName);
     Console.WriteLine("Drives:");
-    foreach (var driveInfo in AskaService.HardwareIndentity.Persistences) {
+    foreach (var driveInfo in AskaService.HardwareIdentity.Persistences) {
         Console.WriteLine("\tName:\t\t" + driveInfo.Name);
         Console.WriteLine("\tFree space:\t" + (double)driveInfo.AvailableFreeSpace / 1024 / 1024 / 1024);
     }

@@ -7,10 +7,9 @@ internal static class AskaBootstrap {
     public static AskaService ConfigureAska() {
         return new AskaService();
     }
-
 }
 
 public class AskaService() {
     public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
-    public static HardwareIdentity HardwareIndentity { get; } = new HardwareIdentity();
+    public static HardwareIdentity HardwareIdentity { get; } = new HardwareIdentity();
 }
