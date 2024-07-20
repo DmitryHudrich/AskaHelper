@@ -1,7 +1,11 @@
 ﻿using System.Net;
 using System.Text;
+using System.Text.Json.Serialization;
+using AskaHelper.Daemon.Services.OsInteraction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace AskaHelper.Daemon.Services.HttpServer;
 
@@ -18,9 +22,21 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
 
         // Bind endpoints below 
 
-        Bind("/health", async (context, services, requestData) => {
-            services.GetRequiredService<ScopeService>();
-            return requestData;
+        Bind("/ping", (_, _, _) => Task.FromResult("pong"));
+        Bind("/ping",
+            (_, _, _) =>
+                Task.FromResult(
+                    JsonConvert.SerializeObject(new { Data = "Just a post method for ping-check, so *pong*" })),
+            Method.Post);
+
+        Bind("/system/info", (_, _, _) => {
+            var drives = HardDriveService.Drives;
+            return Task.FromResult(JsonConvert.SerializeObject(new {
+                System = Aska.OsIdentity.FullDistroName,
+                Drives = drives
+                    .Select(drive => new PersistenceInfo() { Name = drive.Name, FreeSpace = drive.AvailableFreeSpace, })
+                    .ToArray(),
+            }));
         });
 
         // --------------------------------------------------------------------
@@ -31,15 +47,27 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
     private void BindAll() {
         Task.Run(async () => {
             while (true) {
+                var context = await server.GetContextAsync();
                 foreach (var endpoint in endpoints) {
-                    var context = await server.GetContextAsync();
                     logger.LogInformation(context.Request.Url?.LocalPath);
-                    if (context.Request.Url != null && context.Request.Url.LocalPath == endpoint.Data) {
+                    if (context.Request.Url?.LocalPath == endpoint.Data && CompareMethod(context, endpoint)) {
                         await ConnectionPreHandle(context, endpoint);
                     }
                 }
             }
         });
+    }
+
+    private static Boolean CompareMethod(HttpListenerContext context, Endpoint endpoint) {
+        var castedMethod = context.Request.HttpMethod switch {
+            "GET" => Method.Get,
+            "POST" => Method.Post,
+            "PUT" => Method.Put,
+            "PATCH" => Method.Patch,
+            "DELETE" => Method.Delete,
+            _ => throw new ArgumentException("Why?"),
+        };
+        return castedMethod == endpoint.Method;
     }
 
     private async Task ConnectionPreHandle(HttpListenerContext context, Endpoint endpoint) {
@@ -64,8 +92,8 @@ internal class NetworkInteraction(ILogger<NetworkInteraction> logger) {
         await output.FlushAsync();
     }
 
-    private void Bind(String endpoint, NetworkRequestHandler handler) {
-        endpoints.Add(new Endpoint(endpoint, handler));
+    private void Bind(String endpoint, NetworkRequestHandler handler, Method method = Method.Get) {
+        endpoints.Add(new Endpoint(endpoint, handler, method));
     }
 
     private void StartServer() {

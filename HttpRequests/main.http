@@ -1,7 +1,14 @@
-POST http://127.0.0.1:8888/health
+POST http://127.0.0.1:8888/ping
 Content-Type: application/json
 
 {
   "id": 999,
   "value": "content"
 }
+ 
+###
+GET http://127.0.0.1:8888/ping
+
+###
+GET http://127.0.0.1:8888/system/info
+

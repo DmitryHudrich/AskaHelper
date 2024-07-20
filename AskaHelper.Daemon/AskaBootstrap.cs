@@ -27,13 +27,6 @@ namespace AskaHelper.Daemon {
     internal class Aska(NetworkInteraction networkInteraction) {
         public static OsIdentity OsIdentity { get; } = OsIdentity.Identify();
 
-        private static PersistenceInfo[] PersistenceInfo() {
-            var drives = HardDriveService.Drives;
-            return drives
-                .Select(drive => new PersistenceInfo() { Name = drive.Name, FreeSpace = drive.AvailableFreeSpace, })
-                .ToArray();
-        }
-
         public void StartDaemons() {
             networkInteraction.EndpointsPrepare();
         }

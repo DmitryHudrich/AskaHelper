@@ -1,6 +1,6 @@
 ﻿namespace AskaHelper.Daemon.Services.HttpServer;
 
-internal enum Methods {
+internal enum Method {
     Get,
     Post,
     Put,
